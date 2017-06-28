@@ -1,0 +1,60 @@
+BugTracker last published at 7:00 AM
+FIXES NEEDED that I know of as of 7:00 AM:
+-----------------------------------------
+If Demo Logins don't work, you can log in with Admin role as moderator@coderfoundry.com PW:password 
+Functionality:
+Can Submitter create tickets in projects not assigned to? Currently yes.
+Tickets functions still erratic
+Check on return views
+Securing app
+http://localhost:58484/Tickets/Edit/15
+http://localhost:58484/Tickets/Details/15
+Do 3rd party login last cos of https
+I'm working on a surprise landing page
+
+Styling:
+Banner not lined up with Body
+
+NICE TO HAVE when I have time:
+-----------------------------
+Project & Role assignments display together in My Profile
+Attachment file show corresponding icon
+Popup info on 3rd & 4th dashboard dial need to swing left
+
+
+DONE:
+(v) Live nbrs in Dashboard
+(v) Test acct have update access to all tickets
+(v) Install dotdotdot
+(v) Primary buttons darkred text
+(v) Notify assigned user of comments and attachments
+(v) No attachments not handling right
+(v) Attachment file show file download icon
+(v) Demo accts login still erratic
+(v) http://localhost:58484/Account/Login?ReturnUrl=%2FTickets%2FIndex
+(v) Demo accts not allowed to update Profile or PW
+(v) Add email to User Assignment Details
+
+NOTES:
+fa-folder-open-o
+fa-mail-reply	fa-reply
+fa-chevron-circle-down
+fa-fire	fa-fire-extinguisher	
+fa-archive	fa-bank fa-globe
+
+fa-file-excel-o	image-o	
+fa-file-pdf-o	picture-o	powerpoint-o
+fa-file-word-o
+
+
+
+
+
+
+
+
+
+
+
+
+

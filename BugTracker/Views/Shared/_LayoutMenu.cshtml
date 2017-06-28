@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="~/plugins/images/favicon.png">
+    <title>@ViewBag.Title: BugTracker.Pro</title>
+    @Styles.Render("~/Content")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <!-- Bootstrap Core CSS -->
+    <link href="~/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- datatables cdn CSS -->
+    @*<link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet">*@
+    <link href="~/Scripts/datatables/jquery.dataTables.min.css" rel="stylesheet">
+
+    <!-- Menu CSS -->
+    <link href="~/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+
+    <!-- toast CSS -->
+    <link href="~/plugins/bower_components/toast-master/css/jquery.toast.css" rel="stylesheet">
+
+    <!-- morris CSS -->
+    <link href="~/plugins/bower_components/morrisjs/morris.css" rel="stylesheet">
+
+    <!-- chartist CSS -->
+    <link href="~/plugins/bower_components/chartist-js/dist/chartist.min.css" rel="stylesheet">
+    <link href="~/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css" rel="stylesheet">
+
+    <!-- animation CSS -->
+    <link href="~/css/animate.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="~/css/style.css" rel="stylesheet">
+
+    <!-- color CSS -->
+    <link href="~/css/colors/default.css" id="theme" rel="stylesheet">
+
+    <!-- DotDotDot PlugIn: https://github.com/FrDH/jQuery.dotdotdot -->
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/myJS/jquery.dotdotdot.min.js"></script>
+
+    <!-- My Custom CSS -->
+    <link href="~/css/BootsnippAdmin.css" rel="stylesheet" />
+    <link href="~/css/BootsnippLogin.css" rel="stylesheet" />
+    <link href="~/css/MyPopups.css" rel="stylesheet" />
+    <link href="~/css/MyStyleSheet.css" rel="stylesheet" />
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="fix-header">
+    <!-- ============================================================== -->
+    <!-- Preloader -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Wrapper -->
+    <!-- ============================================================== -->
+    <div id="wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header">
+                <!-- Topbar header - Small Left side with Logo -->
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <div class="top-left-partkl">
+                        <!-- div class="top-left-part" -->
+                        <!-- Logo -->
+                        @*<a class="logo">*@
+                            <!-- a class="logo" href="index.cshtml" -->
+                            <b>
+                                <!-- Logo icon image, you can use font-icon also -->
+                                <!--This is dark logo icon--><!-- img src="~/plugins/images/admin-logo-dark.png" alt="home" class="dark-logo" /-->
+                                <!--This is light logo icon--><img src="~/plugins/images/admin-logo.png" alt="home" class="light-logo" />
+                            </b>
+                            <span class="hidden-xs">
+                                <!-- Logo text image you can use text also -->
+                                <!--This is light logo text-->@*< img src="~/plugins/images/admin-text.png" alt="home" class="light-logo" />*@
+                                <!--This is dark logo text-->@*<img src="~/plugins/images/admin-text-dark.png" alt="home" class="dark-logo" />*@
+                                @*This is light logo text<img src="~/images/BTPadmin-text-dark.png" alt="BTP logo" class="light-logo" />*@
+                                @*<a href="@Url.Action("Index","Home")"><img src="@Url.Content("~/Themes/Gold/images/try-onit.png")" alt="Home" /></a>*@
+                                <a href="@Url.Action("Index","Tickets")"><img src="@Url.Content("~/images/BugTrackerLogoGrey.png")" alt="BTP logo" class="light-logo" /></a>
+                            </span>
+                        @*</a>*@
+                    </div><!-- div class="top-left-part" -->
+                </div><!-- div class="col-lg-3 col-md-4 col-sm-4 col-xs-12" -->
+                <!-- Topbar header - Big Right side -->
+                <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+                    <!-- Topbar header - Big Right side - Left third with Breadcrumbs -->
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-6">
+                        <div class="nav navbar-top-links navbar-left pull-left">
+                            <div class="title-trail">
+                                <h2 style="color:aqua">@ViewBag.Title</h2>
+                                <!-- Breadcrumbs -->
+                                @*<ul >
+                                        <li >@ViewBag.Title</li>
+                                        <li class="breadcrumb"><a href="#">Dashboard</a></li>
+                                    </ul>*@
+                            </div>
+                        </div>
+                    </div><!-- div class="col-lg-5 col-md-5 col-sm-5 col-xs-6" -->
+                    <!-- Topbar header - Big Right side - Middle third with Login -->
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-4">
+                        <!-- div class="col-lg-4 col-md-4 col-sm-4 col-xs-3" -->
+                        <ul class="nav navbar-top-links " align="center">
+                            <li>
+                                @Html.Partial("_LoginPartial")
+                                @*<a class="profile-pic" href="#"> <img src="~/plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"><b class="hidden-xs">Steave</b></a>*@
+                            </li>
+                        </ul>
+                    </div><!-- div class="col-lg-4 col-md-4 col-sm-4 col-xs-3" -->
+                    <!-- Topbar header - Big Right side - Right third with Search -->
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                        <ul class="nav navbar-top-links navbar-right pull-right">
+                            <li>
+                                <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
+                                    <input type="text" placeholder="Search..." class="form-control"> <a href=""><i class="fa fa-search"></i></a>
+                                </form>
+                            </li>
+                        </ul><!-- ul class="nav navbar-top-links navbar-right pull-right" -->
+                    </div><!-- div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" -->
+                </div><!-- div class="col-lg-9 col-md-8 col-sm-8 col-xs-12" -->
+                <!-- /div><!-- /div class="row bg-title" -->
+            </div><!-- div class="navbar-header" -->
+        </nav><!-- nav class="navbar navbar-default navbar-static-top m-b-0" -->
+        <!-- End Topbar header Navigation -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav slimscrollsidebar">
+                <br />
+                <div class="sidebar-head">
+                    <h3><span class="fa-fw open-close"><i class="ti-close ti-menu"></i></span> <span class="hide-menu">Navigation</span></h3>
+                </div>
+                <ul class="nav" id="side-menu" ><!-- ul class="nav" id="side-menu" style="padding-left: 10px; margin-left: 10px;" -->
+                    <li style="padding: 50px 0 0 0;">
+                        <!-- li style="padding: 70px 0 0;" -->
+                        <div class="icon-list-demo clearfix ">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-dashboard"></i>
+                                @Html.ActionLink("Dashboard", "Index", "Tickets")
+                                <!-- a href="index.cshtml" class="waves-effect"><i class="fa fa-clock-o fa-fw" aria-hidden="true"></i>Dashboard</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix waves-effect">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-users"></i>
+                                @Html.ActionLink("User Assignments", "Index", "UserAssignments")
+                                <!-- a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix waves-effect">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-child"></i>
+                                @Html.ActionLink("Role Assignments", "UsersForRole", "UserRoles")
+                                <!-- a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix ">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-sitemap"></i>
+                                @Html.ActionLink("Project Assignments", "UsersForProject", "UserProjects")
+                                <!-- a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix waves-effect">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-cubes"></i>
+                                @Html.ActionLink("Projects", "Index", "Projects")
+                                <!-- a href="basic-table.html" class="waves-effect"><i class="fa fa-table fa-fw" aria-hidden="true"></i>Basic Table</a -->
+                            </div>
+                        </div>
+                    </li>
+
+                    @*<li><hr /></li>*@
+
+                    <li>
+                        <div class="icon-list-demo clearfix ">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-user"></i>
+                                @Html.ActionLink("My Profile", "UpdateProfile", "Manage")
+                                <!-- a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix waves-effect">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-lock"></i>
+                                @Html.ActionLink("Change password", "ChangePassword", "Manage")
+                                <!-- a href="profile.html" class="waves-effect"><i class="fa fa-user fa-fw" aria-hidden="true"></i>Profile</a -->
+                            </div>
+                        </div>
+                    </li>
+
+                    @*<li><hr /></li>*@
+
+                    <li>
+                        <div class="icon-list-demo clearfix ">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-compass "></i>
+                                @Html.ActionLink("Quick Start", "QuickStart", "Home")
+                                <!-- a href="fontawesome.html" class="waves-effect"><i class="fa fa-font fa-fw" aria-hidden="true"></i>Icons</a -->
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="icon-list-demo clearfix ">
+                            <div class="col-sm-6 col-md-4 col-lg-3">
+                                <i class="fa fa-envelope-o"></i>
+                                @Html.ActionLink("Contact Us", "Contact", "Home")
+                                <!-- a href="fontawesome.html" class="waves-effect"><i class="fa fa-font fa-fw" aria-hidden="true"></i>Icons</a -->
+                            </div>
+                        </div>
+                    </li>
+
+                    @*<li><hr /></li>*@
+
+                </ul>
+            </div>
+
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar -->
+        <!-- ============================================================== -->
+
+        @RenderBody()
+
+    </div><!-- div id="wrapper" -->
+    <!-- ============================================================== -->
+    <!-- End Wrapperdiv id="wrapper" -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="~/plugins/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="~/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Menu Plugin JavaScript -->
+    <script src="~/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+
+    <!--slimscroll JavaScript -->
+    <script src="~/js/jquery.slimscroll.js"></script>
+
+    <!--Wave Effects -->
+    <script src="~/js/waves.js"></script>
+
+    <!--Counter js -->
+    <script src="~/plugins/bower_components/waypoints/lib/jquery.waypoints.js"></script>
+    <script src="~/plugins/bower_components/counterup/jquery.counterup.min.js"></script>
+
+    <!-- chartist chart -->
+    <script src="~/plugins/bower_components/chartist-js/dist/chartist.min.js"></script>
+    <script src="~/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js"></script>
+
+    <!-- Sparkline chart JavaScript -->
+    <script src="~/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="~/js/custom.min.js"></script>
+    <script src="~/js/dashboard1.js"></script>
+    <script src="~/plugins/bower_components/toast-master/js/jquery.toast.js"></script>
+
+    <!-- JQuery JavaScript for pop-ups -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+    <footer>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <p>@DateTime.Now.Year &copy; BugTracker.Pro </p>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @*<script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>*@
+    <script src="~/Scripts/datatables/jquery.js"></script>
+    <script src="~/Scripts/datatables/jquery.dataTables.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('#myTable').DataTable();
+        });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+
+</html>

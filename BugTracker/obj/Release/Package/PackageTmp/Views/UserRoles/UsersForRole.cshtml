@@ -1,0 +1,135 @@
+﻿@model IEnumerable<BugTracker.Models.UsersForRoleViewModel>
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Role Assignments";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <a href="#" class="triggerp" id="mediumtrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    List of Roles and the Users Assigned to them
+                </a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- <a href="#" class="triggerp" id="rolelisttrig1"> -->
+        <!-- <div class="poptrig" id="rolelistpop1"> -->
+        <!-- <div class="poptrig" id="mediumpop1"> -->
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="mediumpop1">
+            <h3>
+                @ViewBag.Title ><br />
+                List of Roles and the Users Assigned to them<br />
+            </h3>
+            <br />
+            There are 3 main relationships that govern our BugTracker Tickets management system:<br />
+            Users, Roles, and Projects.<br />
+            <br />
+            This View focuses on the Role relationship to the Users.<br />
+            <br />
+            You can sort the list by any column by clicking on the "up" or "down" arrow in the column header.<br />
+            You can search the list for any word or phrase by entering it in the "Search:" box.<br />
+            <br />
+            Any Authenticated User can View all Role Assignments, but not change them.<br />
+            Only Admin Role can Assign Roles to Users.<br />
+            Role Assignments are done in the User Assignments view.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        Role
+                    </th>
+                    <th>
+                        Display Name
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    @*<th>
+                            Action
+                        </th>
+                        <th></th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    foreach (var user in item.Users)
+                    {
+                        <tr>
+                            <td>
+                                @item.Role
+                                @*@Html.DisplayFor(modelItem => item.Role.Name)*@
+                            </td>
+
+                            <td>
+                                @user.DisplayName
+                            </td>
+                            <td>
+                                @user.FirstName
+                            </td>
+                            <td>
+                                @user.LastName
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var moveRight = 20;
+            var moveDown = 1;
+
+            $('a#mediumtrig1').hover(function (e) {
+                $('div#mediumpop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+            }, function () {
+                setTimeout(function () { $('div#mediumpop1').hide(); }, 500);
+            });
+
+        });
+        //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}
+
+

@@ -1,0 +1,21 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";         @*_LayoutTopBar TopBar only, no Menu, no Login Content, plain _LoginPartial <= Works good*@
+    Layout = "~/Views/Shared/_LayoutTopBar.cshtml";       @*_LayoutTopBar TopBar only, no Menu, no Login Content, route _LoginPartial <= Didn't work*@
+    @*Layout = "~/Views/Shared/_LayoutLogin.cshtml";*@      @*_LayoutLogin TopBar only, no Menu, Login Content, plain _LoginPartial <= Works good, Content doubled*@
+    @*Layout = "~/Views/Shared/_LayoutMenu.cshtml";*@       @*_LayoutMenu: TopBar, left Menu, no Login Content, plain _LoginPartial*@
+}
+
+@using BugTracker.Models
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "LoginDemo";
+}
+
+<!-- ============================================================== -->
+<!-- Page Content -->
+<!-- ============================================================== -->
+
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->

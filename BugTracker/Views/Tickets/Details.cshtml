@@ -1,0 +1,745 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@model BugTracker.Models.CodeFirst.Ticket
+
+@{
+    ViewBag.Title = "Ticket Details";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="mediumtrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="mediumpop1">
+            <h3>@ViewBag.Title</h3>
+            <br />
+            Any Authenticated User can View all Ticket Details, but not change them.<br />
+            This is to support environments such as Helpdesks and Customer Service Centers where Authenticated Users 
+            can look for solutions to their problems without having to call a Rep.<br />
+            <br />
+            Admin Role can View and Edit all tickets.<br />
+            <br />
+            Project Manager Role can only Edit Tickets associated with Projects they are in charge of as Project Manager.<br />
+            <br />
+            Developer Role can only Edit Tickets Assigned to them as Developers on one or more Projects.<br />
+            <br />
+            Submitter Role can only Edit tickets they own as Submitter.<br />
+            <br />
+            If you are in more than one Role, you have the capabilities of all your assigned Roles.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <a id="top"></a>
+        <!-- ============================================================== -->
+        <!-- Main Ticket Info -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- Section start -->
+            <h5>
+                <a href="#" class="triggerp" id="inpagetrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    Main Section
+                </a>
+            </h5>
+
+            <div id="section-wrapper">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Title)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </dt>
+                    <dd>
+                        @Html.Raw(Model.Description)
+                    </dd>
+
+                    <dt>
+                        Owner
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.OwnerUser.FirstName)
+                        @Html.DisplayFor(model => model.OwnerUser.LastName)
+                        @Html.DisplayFor(model => model.OwnerUser.Email)
+                    </dd>
+
+                    <dt>
+                        AssignedTo
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+                        @Html.DisplayFor(model => model.AssignedToUser.LastName)
+                        @if (Model.AssignedToUser.Email != "klunassigned@mailinator.com")
+                        {
+                            @Html.DisplayFor(model => model.AssignedToUser.Email)
+                        }
+                    </dd>
+
+                    <dt>
+                        Project
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Project.Name)
+                    </dd>
+
+                    <dt>
+                        Type
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TicketType.Name)
+                    </dd>
+
+                    <dt>
+                        Priority
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TicketPriority.Name)
+                    </dd>
+
+                    <dt>
+                        Status
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.TicketStatus.Name)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Created)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Updated)
+                    </dd>
+
+                </dl>
+
+                <!-- HIDDEN / POP-UP DIV -->
+                <div class="poptrig" id="inpagepop1">
+                    <h3>Main Section</h3>
+                    <br />
+                    Contains the Main information about a ticket--the basic but editable fields.<br />
+                    <br />
+                </div>
+
+            </div><!-- div id="section-wrapper" -->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="btn-group" role="group">
+                          
+                        @if ((ViewBag.FilterByTickets == "MINE") || (ViewBag.MyEditTicket = true))
+                        {
+                            <div class="btn btn-default">
+                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                            <div class="btn btn-primary" style="color:darkred">
+                                @Html.ActionLink("Edit Ticket", "Edit", new { id = Model.Id })
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn btn-default">
+                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                            <div class="btn btn-info disabled" style="font-style:italic">
+                                Edit Ticket
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="col-md-push-6">
+                    <div class="btn-group" role="group">
+                        <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                        <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">comments</i></a>
+                        <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">attachments</i></a>
+                        <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">notifications</i></a>
+                        <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Section end -->
+        <br /><br />
+
+        <a id="comments"></a>
+        <!-- ============================================================== -->
+        <!-- Ticket Comments -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- Section start -->
+            <h5>
+                <a href="#" class="triggerp" id="inpagetrig2">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    Comments Section
+                </a>
+            </h5>
+            <div id="section-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Comment
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.TicketComments)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td>
+                                <td>
+                                    @*@Html.DisplayFor(modelItem => item.Comment)*@
+                                    @Html.Raw(item.Comment)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- HIDDEN / POP-UP DIV -->
+                <div class="poptrig" id="inpagepop2">
+                    <h3>Comments Section</h3>
+                    <br />
+                    Contains all the Comments made about the ticket from the stakeholders.<br />
+                    <br />
+                </div>
+
+            </div><!-- div id="section-wrapper" -->
+
+            <br />
+
+            @ViewBag.CommentErrorMsg
+            @if ((ViewBag.FilterByTickets == "MINE") || (ViewBag.MyEditTicket = true))
+            {
+                using (Html.BeginForm("CreateComment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <input type="hidden" name="TicketId" value="@Model.Id" />
+                    <div class="form-group">
+                        <label for="comment" class="ticket-comments-hdr">
+                            Add a Comment:
+                        </label>
+                        <textarea name="Comment" class="form-control" rows="5" id="txteditor"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="btn-group" role="group">
+
+                                <div class="btn btn-default">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                    @Html.ActionLink("Back to List", "Index")
+                                </div>
+                                <div class="btn " >
+                                    <input type="submit" value="Submit Comment" class="btn btn-primary" style="color:darkred" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-push-6">
+                            <div class="btn-group" role="group">
+                                <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                                <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                                <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">attachments</i></a>
+                                <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">notifications</i></a>
+                                <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group" role="group">
+                            <div class="btn btn-default">
+                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                            <div class="btn btn-info disabled" style="font-style:italic">
+                                Create New Comment
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-push-6">
+                        <div class="btn-group" role="group">
+                            <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                            <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                            <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">attachments</i></a>
+                            <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">notifications</i></a>
+                            <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div><!-- Section end -->
+        <br /><br />
+
+        <a id="attachments"></a>
+        <!-- ============================================================== -->
+        <!-- Ticket Attachments -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- Section start -->
+            <h5>
+                <a href="#" class="triggerp" id="inpagetrig3">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    Attachments Section
+                </a>
+            </h5>
+            <div id="section-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Attachment
+                            </th>
+                            <th>
+                                Description
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.TicketAttachments)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td>
+                                <td>
+                                    <div style="height:100px;width:100px">
+                                        <a class="" href="@Url.Content(item.FilePath + item.FileUrl)">
+                                            <i class="fa fa-download fa-2x" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- HIDDEN / POP-UP DIV -->
+                <div class="poptrig" id="inpagepop3">
+                    <h3>Attachments Section</h3>
+                    <br />
+                    Contains all the Attachments made about the ticket from the stakeholders.<br />
+                    <br />
+                </div>
+
+            </div><!-- div id="section-wrapper" -->
+            <br />
+
+            @ViewBag.FileErrorMsg
+            @if ((ViewBag.FilterByTickets == "MINE") || (ViewBag.MyEditTicket = true))
+            {
+                    using (Html.BeginForm("UploadAttachment", "Tickets", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                    {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @*@Html.HiddenFor(model => model.Id)*@
+                        <input type="hidden" name="TicketId" value="@Model.Id" />
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Upload File Attachment:</label>
+                            <div class="col-md-9">
+                                <input name="file" type="file" class="form-control" id="fileUpload" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Description of Attachment:</label>
+                            <div class="col-md-9">
+                                <textarea name="Description" class="form-control" rows="5"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="btn-group" role="group">
+
+                                    <div class="btn btn-default">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                        @Html.ActionLink("Back to List", "Index")
+                                    </div>
+                                    <div class="btn">
+                                        <input type="submit" value="Upload New Attachment" class="btn btn-primary " style="color:darkred" />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-push-6">
+                                <div class="btn-group" role="group">
+                                    <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                                    <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                                    <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">attachments</i></a>
+                                    <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">notifications</i></a>
+                                    <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group" role="group">
+
+                            <div class="btn btn-default">
+                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                @Html.ActionLink("Back to List", "Index")
+                            </div>
+                            <div class="btn btn-info disabled" style="font-style:italic">
+                                Upload New Attachment
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-push-6">
+                        <div class="btn-group" role="group">
+                            <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                            <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                            <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">attachments</i></a>
+                            <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">notifications</i></a>
+                            <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div><!-- Section end -->
+        <br /><br />
+
+        <a id="notifications"></a>
+        <!-- ============================================================== -->
+        <!-- Ticket Notifications -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- Section start -->
+            <h5>
+                <a href="#" class="triggerp" id="inpagetrig4">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    Notifications Section
+                </a>
+            </h5>
+            <div id="section-wrapper">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Message
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.TicketNotifications)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- HIDDEN / POP-UP DIV -->
+                <div class="poptrig" id="inpagepop4">
+                    <h3>Notifications Section</h3>
+                    <br />
+                    Contains all the Notifications made about the ticket to the stakeholders.<br />
+                    <br />
+                </div>
+
+            </div><!-- div id="section-wrapper" -->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="btn-group" role="group">
+
+                        <div class="btn btn-default">
+                            <i class="fa fa-reply" aria-hidden="true"></i>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-push-6">
+                    <div class="btn-group" role="group">
+                        <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                        <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                        <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">attachments</i></a>
+                        <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">notifications</i></a>
+                        <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-down" aria-hidden="true">history</i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- Section end -->
+        <br /><br />
+
+        <a id="history"></a>
+        <!-- ============================================================== -->
+        <!-- Ticket Histories -->
+        <!-- ============================================================== -->
+        <div>
+            <!-- Section start -->
+            <h5>
+                <a href="#" class="triggerp" id="inpagetrig5">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    History Section
+                </a>
+            </h5>
+            <div id="section-wrapper"><!-- div id="section-wrapper" -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Changed
+                            </th>
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Property
+                            </th>
+                            <th>
+                                OldValue
+                            </th>
+                            <th>
+                                NewValue
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.TicketHistories)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Changed)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.User.DisplayName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Property)
+                                </td>
+                                <td>@Html.Raw(item.OldValue)
+                                </td>
+                                <td>@Html.Raw(item.NewValue)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- HIDDEN / POP-UP DIV -->
+                <div class="poptrig" id="inpagepop5">
+                    <h3>History Section</h3>
+                    <br />
+                    Contains a History of all the pertinent changes made to the ticket by the stakeholders.<br />
+                    <br />
+                </div>
+
+            </div><!-- div id="section-wrapper" -->
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="btn-group" role="group">
+
+                        <div class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-push-6">
+                    <div class="btn-group" role="group">
+                        <a id="jump-to-top" href="#" class="btn btn-default back-to-top" role="button" title="Click to jump to the Top of Page" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">top</i></a>
+                        <a id="jump-to-comments" href="#comments" class="btn btn-default" role="button" title="Click to jump to Comments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">comments</i></a>
+                        <a id="jump-to-attachments" href="#attachments" class="btn btn-default" role="button" title="Click to jump to Attachments Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">attachments</i></a>
+                        <a id="jump-to-notifications" href="#notifications" class="btn btn-default" role="button" title="Click to jump to Notifications Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">notifications</i></a>
+                        <a id="jump-to-history" href="#history" class="btn btn-default" role="button" title="Click to jump to History Section" data-toggle="tooltip" data-placement="right"><i class="fa fa-chevron-circle-up" aria-hidden="true">history</i></a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- Section end -->
+        <br /><br />
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script>
+            $('#txteditor').tinymce({});
+    </script>
+
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+        $('a#mediumtrig1').hover(function (e) {
+            $('div#mediumpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#mediumpop1').hide(); }, 50);
+        });
+      });
+      //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig1').hover(function (e) {
+              $('div#inpagepop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop1').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig2').hover(function (e) {
+              $('div#inpagepop2').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop2').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig3').hover(function (e) {
+              $('div#inpagepop3').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop3').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig4').hover(function (e) {
+              $('div#inpagepop4').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop4').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig5').hover(function (e) {
+              $('div#inpagepop5').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop5').hide(); }, 50);
+          });
+      });
+
+    </script>
+}

@@ -1,0 +1,221 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@*@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>*@
+@model BugTracker.Models.UserPreferencesViewModel
+
+@{
+    ViewBag.Title = "Testing Dashboard";
+}
+
+<!-- ============================================================== -->
+<!-- Page Title -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <h2>@ViewBag.Title</h2>
+        <p>
+            List of Tickets pertinent to You.
+            Here is the List of Tickets pertinent to your Role(s).
+        </p>
+
+        <hr /><br />
+        <p>
+            @ViewBag.StatusMessage
+        </p>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <form>
+            <fieldset>
+                <legend>Filter by Status:</legend>
+                <div>
+                    <input type="radio" id="coding" name="interest" value="coding" checked>
+                    <label for="coding">ALL Statuses</label>
+                </div>
+                <div>
+                    <input type="radio" id="music" name="interest" value="music" >
+                    <label for="music">OPEN Tickets</label>
+                </div>
+                <div>
+                    <input type="radio" id="coding" name="interest" value="coding" >
+                    <label for="coding">CLOSED Tickets</label>
+                </div>
+                <div>
+                    <input type="radio" id="music" name="interest" value="music" >
+                    <label for="music">ARCHIVED Tickets</label>
+                </div>
+
+                @*<div>
+                    <button type="submit">Submit form</button>
+                </div>*@
+            </fieldset>
+        </form>
+
+       @* @using (Html.BeginForm("MyIndex", "Testing", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                --@Html.HiddenFor(model => model.Tickets)
+
+                <div class="form-group">
+                    @Html.LabelFor(Coding, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(Coding)
+                            @Html.ValidationMessageFor(Coding, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(Music, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(Music)
+                            @Html.ValidationMessageFor(Music, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }*@
+
+
+
+        <div class="form-group">
+            <div class="btn btn-default active">
+                @Html.ActionLink("All Tickets", "Index", "Testing")
+            </div>
+            <div class="btn btn-default ">
+                @*@Html.ActionLink("My Tickets", "MyIndex", "Tickets", new { myUser = ViewBag.myUser })*@
+                @Html.ActionLink("My Tickets", "MyIndex", "Testing")
+            </div>
+        </div>
+
+        @*@if (User.IsInRole("Submitter"))
+        {*@
+            <div class="form-group">
+                <div class="btn btn-default">
+                    @Html.ActionLink("Create New Ticket", "Create")
+                </div>
+            </div>
+        @*}
+        else
+        {
+            <div class="grayed-out">
+                <div class="btn btn-info">
+                    Create New Ticket
+                </div>
+            </div>
+        }*@
+
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Title
+                        @*@Html.DisplayNameFor(model => model.Tickets.Select(t=>t.Title))*@
+                    </th>
+                    <th>Description
+                        @*@Html.DisplayNameFor(model => model.Description)*@
+                    </th>
+                    <th>
+                        Owner
+                        @*@Html.DisplayNameFor(model => model.OwnerUser.FirstName)*@
+                    </th>
+                    <th>
+                        AssignedTo
+                        @*@Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@
+                    </th>
+                    <th>
+                        Project
+                        @*@Html.DisplayNameFor(model => model.Project.Name)*@
+                    </th>
+                    <th>
+                        Priority
+                        @*@Html.DisplayNameFor(model => model.TicketPriority.Name)*@
+                    </th>
+                    <th>
+                        Status
+                        @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                    </th>
+                    <th>
+                        Type
+                        @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                    </th>
+                    <th>Created
+                        @*@Html.DisplayNameFor(model => model.Created)*@
+                    </th>
+                    <th>Updated
+                        @*@Html.DisplayNameFor(model => model.Updated)*@
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Tickets)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Updated)
+                        </td>
+                        <td>
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                            }
+
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                            }
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+
+        </table>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+
+</div><!-- div id="page-wrapper" -->

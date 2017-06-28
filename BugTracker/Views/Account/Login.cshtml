@@ -1,0 +1,354 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";         @*_LayoutTopBar TopBar only, no Menu, no Login Content, plain _LoginPartial <= Works good*@
+    Layout = "~/Views/Shared/_LayoutTopBar.cshtml";       @*_LayoutTopBar TopBar only, no Menu, no Login Content, route _LoginPartial <= Didn't work*@
+    @*Layout = "~/Views/Shared/_LayoutLogin.cshtml";*@      @*_LayoutLogin TopBar only, no Menu, Login Content, plain _LoginPartial <= Works good, Content doubled*@
+    @*Layout = "~/Views/Shared/_LayoutMenu.cshtml";*@       @*_LayoutMenu: TopBar, left Menu, no Login Content, plain _LoginPartial*@
+}
+
+@using BugTracker.Models
+@model LoginViewModel
+
+@{
+    //ViewBag.Title = "Log in";
+    ViewBag.Title = "Gateway";
+}
+
+<!-- ============================================================== -->
+<!-- Page Title -->
+<!-- ============================================================== -->
+<div id="wrapper">
+    <div class="container-fluid">
+
+        <br /><br /><br /><br />
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+        <div class="container">
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title" id="myModalLabel">
+                            <img src="~/plugins/images/admin-logo.png" alt="home" class="dark-logo" /><!--This is light logo icon-->
+                            Welcome to @Html.ActionLink("BugTracker.Pro", "Index", "Tickets") !  Do you want to 'Crush', 'Crash' or 'Dash'?
+                        </h1>
+                    </div><!-- div class="panel-heading" -->
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="well">
+                                    <!-- ============================================================== -->
+                                    <!-- Start Left Login Panel -->
+                                    <!-- ============================================================== -->
+
+                                    <div class="omb_login">
+                                        <button class="btn btn-lg btn-info btn-block disabled" type="submit">Log in with 3rd Party Account:</button>
+                                        <br />
+
+                                        <!-- Start social Buttons -->
+                                        <div class="row omb_row-sm-offset-1 omb_socialButtons">
+                                            <div class="col-xs-4 col-sm-4">
+                                                @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                            </div><!-- div class="col-xs-4 col-sm-2" -->
+                                            <div class="col-xs-4 col-sm-4">
+                                                <a href="#" class="btn btn-lg btn-block omb_btn-facebook">
+                                                    <i class="fa fa-facebook visible-lg"></i>
+                                                    <i class="fa fa-facebook visible-xs"></i>
+                                                    <span class="hidden-xs">Facebook</span>
+                                                </a>
+                                            </div><!-- div class="container" -->
+                                            <div class="col-xs-4 col-sm-4">
+                                                <a href="#" class="btn btn-lg btn-block omb_btn-linkedin">
+                                                    <i class="fa fa-linkedin visible-lg"></i>
+                                                    <i class="fa fa-linkedin visible-xs"></i>
+                                                    <span class="hidden-xs">LinkedIn</span>
+                                                </a>
+                                            </div><!-- div class="col-xs-4 col-sm-2" -->
+                                        </div><!-- class="row omb_row-sm-offset-3 omb_socialButtons" -->
+
+                                        <div class="row omb_row-sm-offset-3 omb_loginOr">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <hr class="omb_hrOr">
+                                                <span class="omb_spanOr">or</span>
+                                            </div><!-- div class="col-xs-12 col-sm-6" -->
+                                        </div><!-- div class="row omb_row-sm-offset-3 omb_loginOr" -->
+
+                                        <!-- Start login Form -->
+                                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                            <div class="form-group">
+                                                <div class="col-xs-12 col-sm-12">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                                        <input type="text" class="form-control" name="Email" placeholder="email address">
+                                                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                                        <input type="password" class="form-control" name="Password" placeholder="Password1234$">
+                                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                    <div class="input-group"><p>
+                                                            @Html.CheckBoxFor(m => m.RememberMe)
+                                                            @Html.LabelFor(m => m.RememberMe)</p>
+                                                    </div>
+
+                                                    <button class="btn btn-lg btn-primary btn-block" type="submit">Log in to 'Crush' a bug</button>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <!-- Start save and recovery -->
+                                        <div class="row omb_row-sm-offset-1">
+                                            <div class="col-xs-12 col-sm-6">
+                                                <p>
+                                                    @Html.ActionLink("Forgot password?", "ForgotPassword", "Account")
+                                                </p>
+                                            </div><!-- div class="col-xs-12 col-sm-3" -->
+                                        </div><!-- div class="row omb_row-sm-offset-3" -->
+
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            @Html.ActionLink("Sign Up to 'Crash' our party", "Register", "Account")
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </div><!-- div class="omb_login" -->
+                                    <!-- ============================================================== -->
+                                    <!-- End Left Login Panel -->
+                                    <!-- ============================================================== -->
+                                </div><!-- div class="well" -->
+                            </div><!-- div class="col-xs-6" -->
+
+                            <!-- ============================================================== -->
+                            <!-- Start Right Demo Panel -->
+                            <!-- ============================================================== -->
+                            <div class="col-xs-6">
+                                <br /><br />
+                                <button class="btn btn-lg btn-info btn-block " type="submit">Take BugTracker.Pro for a 'Dash' Drive:</button>
+
+                                <ul class="list-unstyled list-social">
+                                    <li>
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            <a href="#" class="triggerp" id="inpagetrig1">
+                                                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                                            </a> &nbsp;
+                                            @Html.ActionLink(linkText: "Admin Demo",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "Admin"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </li>
+                                    <li>
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            <a href="#" class="triggerp" id="inpagetrig5">
+                                                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                                            </a> &nbsp;
+                                            @Html.ActionLink(linkText: "Project Manager Demo (Single Role)",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "PMSingle"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </li>
+                                    <li>
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            <a href="#" class="triggerp" id="inpagetrig6">
+                                                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                                            </a> &nbsp;
+                                            @Html.ActionLink(linkText: "Project Manager Demo (Multiple Roles)",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "PMMultiple"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </li>
+                                    <li>
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            <a href="#" class="triggerp" id="inpagetrig3">
+                                                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                                            </a> &nbsp;
+                                            @Html.ActionLink(linkText: "Developer Demo",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "Developer"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </li>
+                                    <li>
+                                        <div class="btn btn-lg btn-default btn-block">
+                                            <a href="#" class="triggerp" id="inpagetrig4">
+                                                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                                            </a> &nbsp;
+                                            @Html.ActionLink(linkText: "Submitter Demo",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "Submitter"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                                        </div><!-- div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" -->
+                                    </li>
+                                </ul>
+                            </div><!-- div class="col-xs-6" -->
+                            <!-- ============================================================== -->
+                            <!-- End Right Demo Panel -->
+                            <!-- ============================================================== -->
+
+                        </div><!-- div class="row" -->
+                    </div><!-- div class="panel-body" -->
+                </div><!-- div class="panel panel-primary" -->
+            </div><!-- div class="row" -->
+        </div><!-- div class="container" -->
+        <!-- ============================================================== -->
+        <!-- End New Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+<!-- HIDDEN / POP-UP DIV -->
+<div class="poptrig" id="inpagepop1">
+    <h3>Admin Demo</h3>
+    <br />
+    Click here to access BugTracker.Pro in the Admin Role.<br />
+    <br />
+</div>
+
+<div class="poptrig" id="inpagepop5">
+    <h3>Project Manager Demo (Single Role)</h3>
+    <br />
+    Click here to access BugTracker.Pro in the Project Manager Role (Single Role).<br />
+    <br />
+    In this Demo, the Project Manager only has the Project Manager Role assigned to him.<br />
+    <br />
+</div>
+
+<div class="poptrig" id="inpagepop6">
+    <h3>Project Manager Demo (Multiple Roles)</h3>
+    <br />
+    In this Demo, the Project Manager has not only the Project Manager Role assigned to him,
+    but he is also assigned Developer and Submitter Roles as well.<br />
+    <br />
+    This situation is the most complicated one.<br />
+    <br />
+</div>
+
+<div class="poptrig" id="inpagepop3">
+    <h3>Developer Demo</h3>
+    <br />
+    Click here to access BugTracker.Pro in the Developer Role.<br />
+    <br />
+</div>
+
+<div class="poptrig" id="inpagepop4">
+    <h3>Submitter Demo</h3>
+    <br />
+    Click here to access BugTracker.Pro in the Submitter Role.<br />
+    <br />
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#inpagetrig1').hover(function (e) {
+            $('div#inpagepop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#inpagepop1').hide(); }, 50);
+        });
+      });
+      //setTimeout(function () { $('div#smallpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+
+      $(function () {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#inpagetrig5').hover(function (e) {
+            $('div#inpagepop5').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#inpagepop5').hide(); }, 50);
+        });
+      });
+
+      $(function () {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#inpagetrig6').hover(function (e) {
+            $('div#inpagepop6').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#inpagepop6').hide(); }, 50);
+        });
+      });
+
+      $(function () {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#inpagetrig3').hover(function (e) {
+            $('div#inpagepop3').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#inpagepop3').hide(); }, 50);
+        });
+      });
+
+      $(function () {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#inpagetrig4').hover(function (e) {
+            $('div#inpagepop4').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#inpagepop4').hide(); }, 50);
+        });
+      });
+</script>
+
+}

@@ -1,0 +1,154 @@
+﻿@model BugTracker.Models.RegisterViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    //Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Register";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header  -->
+<!-- ============================================================== -->
+<div id="wrapper">
+    <!-- This uses id="wrapper" NOT id="page-wrapper" -->
+    <div class="container-fluid">
+        <!-- div class="container-fluid" -->
+
+        <br /><br /><br /><br /><br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="smalltrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- <a href="#" class="triggerp" id="registertrig1"> -->
+        <!-- <div class="poptrig" id="registerpop1"> -->
+        <!-- <div class="poptrig" id="smallpop1"> -->
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="smallpop1">
+            <h3>Register</h3>
+            <br />
+            You have to Register / Sign Up for a New BugTracker.Pro Account in order to do anything in BugTracker.Pro.<br />
+            You will be automatically assigned a "Submitter" Role.<br />
+            <br />
+            Only an Admin can update your User Roles.<br />
+            Only an Admin or Project Manager in charge of the project can update your Project Assignments.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.css" rel="stylesheet">
+        <div class="container">
+            <!-- div class="container" -->
+            <div class="row">
+                <!-- div class="row" -->
+                <div class="panel panel-primary">
+                    <!-- div class="panel panel-primary" -->
+                    <div class="panel-heading">
+                        <!-- div class="panel-heading" -->
+                        <h1 class="panel-title" id="myModalLabel">
+                            <img src="~/plugins/images/admin-logo.png" alt="home" class="dark-logo" /><!--This is light logo icon-->
+                            Register / Sign Up for a New @Html.ActionLink("BugTracker.Pro", "Index", "Tickets") Account
+                        </h1>
+                    </div><!-- div class="panel-heading" -->
+
+                    <div class="row">
+                        <!-- div class="row" -->
+                        <div class="well">
+                            <!-- div class="well" -->
+                            <!-- ============================================================== -->
+                            <!-- Start Register Form -->
+                            <!-- ============================================================== -->
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" class="btn btn-primary" style="color:darkred" value="Register" />
+                                    </div>
+                                </div>
+                            }
+
+                        </div><!-- div class="well" -->
+                    </div><!-- div class="row" -->
+                </div><!-- div class="panel panel-primary" -->
+            </div><!-- div class="row" -->
+        </div><!-- div class="container" -->
+
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#smalltrig1').hover(function(e) {
+            $('div#smallpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#smallpop1').hide(); }, 500);
+        });
+
+      });
+      //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}
+

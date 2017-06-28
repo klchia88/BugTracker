@@ -1,0 +1,85 @@
+﻿body {
+    background-color:#cacaca;
+}
+   
+ul.list-social > li {
+    padding-bottom: 5px;
+}
+
+#klpage-wrapper {
+    padding:0 0 60px;
+    margin:10px;
+    min-height:568px;
+    background:#edf1f5;
+}
+
+#section-wrapper {
+    padding:0 0 20px;
+    margin:0;
+    background:white;
+}
+
+.top-left-partkl{
+    width:240px;
+    float:left;
+    /*color: #313131;*/
+    color: #3c4451;
+    border-right:1px solid rgba(0,0,0,.08)}
+
+.top-left-part a{
+    color:#fff;
+    line-height:59px;
+    font-size:18px;
+    padding-left:10px;
+    text-transform:uppercase}
+
+.top-left-part .light-logo{
+    display:none}
+
+/* My CSS General Settings ============================================================ */
+.qsection-hdr {
+	text-transform: uppercase;
+	/*text-align: center;*/
+	font-family: "Josefin Slab","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-weight: 700;
+	letter-spacing: 1px;
+    font-size: 1.75em;
+
+}
+
+.qsummary {
+	font-size: 1.25em;
+    font-weight: 400;
+	line-height: 1.6;
+    color: #EB067B;  
+	/*color: #000;*/
+    /*text-align: center;*/
+
+}
+
+.qspara-hdr {
+	text-transform: capitalize;
+	font-size: 1.5em;
+	line-height: 1.6;
+    font-weight: 500;
+color: blue;
+}
+
+.qspara-body {
+	font-size: 1.25em;
+	color: #000;
+}
+
+.qslist-hdr {
+	text-transform: capitalize;
+	font-size: 1.25em;
+	line-height: 1.6;
+    color: blue;
+}
+
+.qscodetext {
+    margin:0px; 
+    height:10%; 
+    width:70%; 
+    padding:0px;
+}

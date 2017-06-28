@@ -1,0 +1,108 @@
+﻿@model BugTracker.Models.CodeFirst.Project
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Edit Project";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="smalltrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="smallpop1">
+            <h3>
+                @ViewBag.Title<br />
+            </h3>
+            <br />
+            Only Admin and Project Manager Roles can Update Projects.<br />
+            Select the Project Manager's User Name of the Project Manager in charge of the Project.<br />
+            <br />
+            The Project and Ticket Owner (i.e. Submitter) cannot be changed once it has been set at creation time.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, "Project Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ProjectManagerUserId, "Project Manager User Name", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("ProjectManagerUserId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ProjectManagerUserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+                        <input type="submit" value="Save" class="btn btn-primary" style="color:darkred" />
+                    </div>
+                </div>
+            </div><!-- div class="form-horizontal" -->
+        }
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+@Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#smalltrig1').hover(function (e) {
+            $('div#smallpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#smallpop1').hide(); }, 500);
+        });
+
+      });
+      //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}

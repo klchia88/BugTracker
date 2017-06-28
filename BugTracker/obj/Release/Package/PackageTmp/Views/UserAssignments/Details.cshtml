@@ -1,0 +1,175 @@
+﻿@using BugTracker.Models
+@model UserAssignmentsViewModel
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "User Assignment Details";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="smalltrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- <a href="#" class="triggerp" id="userdettrig1"> -->
+        <!-- <div class="poptrig" id="userdetpop1"> -->
+        <!-- <div class="poptrig" id="smallpop1"> -->
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="smallpop1">
+            <h3>
+                @ViewBag.Title ><br />
+                Detail of User's Project and Role Assignments<br />
+            </h3>
+            <br />
+            Only Admin or Project Manager Roles can View this User's Assignments Details.<br />
+            Only Admin Role can Assign Roles to Users.<br />
+            Only Admin or Project Manager Roles can Assign Projects to Users.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <table class="table">
+            <tr>
+                <th>
+                    Display Name
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Email
+                </th>
+                @*<th>
+                    Action
+                </th>
+                <th></th>*@
+            </tr>
+
+            <tr>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.User.DisplayName)*@
+                    @Model.User.DisplayName
+                </td>
+                <td>
+                    @Model.User.FirstName
+                </td>
+                <td>
+                    @Model.User.LastName
+                </td>
+                <td>
+                    @Model.User.Email
+                </td>
+            </tr>
+        </table>
+
+        @*<p>Current Projects</p>
+            @foreach (var project in Model.ProjectsList)
+                    {
+                <p>@project</p><br />
+            }*@
+
+        @using (Html.BeginForm("Details", "UserAssignments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="col-xs-12">
+                <!-- div class="form-horizontal" -->
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @*@Html.HiddenFor(model => model.Post.Published)*@
+                <div class="row">
+
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                ASSIGNED Projects
+                            </div>
+                            @*@Html.LabelFor(model => model.Projects, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-10">
+                                @Html.ListBox("SelectedProjects", Model.ProjectsList)
+                                @Html.ValidationMessageFor(model => model.ProjectsList, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div><!-- div class="col-xs" -->
+
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                ASSIGNED Roles
+                            </div>
+                            @*@Html.LabelFor(model => model.Roles, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                            <div class="col-md-10">
+                                @Html.ListBox("SelectedRoles", Model.RolesList)
+                                @Html.ValidationMessageFor(model => model.RolesList, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div><!-- div class="col-xs" -->
+
+                </div><!-- div class="row" -->
+
+                <br /><br />
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <div class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i>
+                            @Html.ActionLink("Back to List", "Index", "UserAssignments")
+                        </div>
+                        <input type="submit" value="Update" class="btn btn-primary" style="color:darkred" />
+                    </div>
+                </div>
+
+                <!--/div><-- div class="form-horizontal" -->
+            </div><!-- div class="col-xs-12" -->
+        }
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var moveRight = 20;
+            var moveDown = 1;
+
+            $('a#smalltrig1').hover(function (e) {
+                $('div#smallpop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+            }, function () {
+                setTimeout(function () { $('div#smallpop1').hide(); }, 500);
+            });
+
+        });
+        //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}
+
+

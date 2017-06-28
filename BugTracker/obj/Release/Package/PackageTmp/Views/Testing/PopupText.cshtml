@@ -1,0 +1,130 @@
+﻿@{
+//Layout = "~/Views/Shared/_LayoutTopBar.cshtml";         @*_LayoutTopBar TopBar only, no Menu, no Login Content, plain _LoginPartial <= Works good*@
+    @*Layout = "~/Views/Shared/_LayoutTopBar.cshtml";*@       @*_LayoutTopBar TopBar only, no Menu, no Login Content, route _LoginPartial <= Didn't work*@
+    @*Layout = "~/Views/Shared/_LayoutLogin.cshtml";*@      @*_LayoutLogin TopBar only, no Menu, Login Content, plain _LoginPartial <= Works good, Content doubled*@
+Layout = "~/Views/Shared/_LayoutMenu.cshtml";       @*_LayoutMenu: TopBar, left Menu, no Login Content, plain _LoginPartial*@
+}
+
+@{
+    ViewBag.Title = "Gateway";
+}
+
+<!-- ============================================================== -->
+<!-- Page Content -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <h2>@ViewBag.Title</h2>
+        <br /><br /><br /><br /><br />
+
+        <div id="container">
+            <h1>jQuery Tutorial - Pop-up div on hover</h1>
+            <p>
+                To show hidden div, simply hover your mouse over
+                <a href="#" id="trigger">this link</a>.
+            </p>
+            <a href="#" id="trigger2" class="btn btn-lg btn-default ">
+                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="#" id="trigger3" class="btn btn-lg btn-default ">
+                <span class="">Project Manager Demo</span><br />
+            </a>
+
+            <!-- HIDDEN / POP-UP DIV -->
+            <div id="pop-up">
+                <h3>Pop-up div Successfully Displayed</h3>
+                <p>
+                    This div only appears when the trigger link is hovered over. Otherwise
+                    it is hidden from view.<br />
+                    @Html.ActionLink(linkText: "Project Manager Demo (Single Role)",
+                                                            actionName: "LoginDemo",
+                                                            controllerName: "Account",
+                                                            routeValues: new
+                                                            {
+                                                                returnUrl = "",
+                                                                demoType = "PMSingle"
+                                                            },
+                                                            htmlAttributes: null
+                                                            )
+                </p>
+            </div>
+        </div>
+
+            @*<div class="btn btn-lg btn-default btn-block">
+                <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                @Html.ActionLink(linkText: "Project Manager Demo (Single Role)",
+                                                                actionName: "LoginDemo",
+                                                                controllerName: "Account",
+                                                                routeValues: new
+                                                                {
+                                                                    returnUrl = "",
+                                                                    demoType = "PMSingle"
+                                                                },
+                                                                htmlAttributes: null
+                                                                )
+            </div> div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"*@
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <p>
+                    You are already logged in ...<br />
+                    Click to Proceed to Dashboard ...<br />
+                </p>
+                <p>
+                    @Html.ActionLink("Dashboard", "Index", "Tickets")
+                </p>
+
+            }
+            else
+            {
+                <p class="blog-comments-login">
+                    You are not logged in ...<br />
+                    Please Login or Register to Continue ...<br />
+                </p><p>
+                    @*@ViewBag.ReturnUrl("Dashboard");*@
+                    @*@Html.Partial("_LoginPartial")*@
+
+                    @Html.ActionLink("Login", "Login", "Account") |
+                    @Html.ActionLink("Register", "Register", "Account")
+
+                    @*@Html.ActionLink("Log in", "Login", "Account", routeValues: new { @returnUrl = Url.Action(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["id"]) }, htmlAttributes: new { id = "loginLink" })
+                    |
+                    @Html.ActionLink("Register", "Register", "Account", routeValues: new { @returnUrl = Url.Action(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["id"]) }, htmlAttributes: new { id = "registerLink" })*@
+
+                    @*<li>
+                        @Html.ActionLink("Register", "Register", "Account", routeValues: new { @returnUrl = Url.Action(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["id"]) }, htmlAttributes: new { id = "registerLink" })
+                    </li>
+
+                    <li>
+                        @Html.ActionLink("Log in", "Login", "Account", routeValues: new { @returnUrl = Url.Action(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["controller"].ToString(), ViewContext.RouteData.Values["id"]) }, htmlAttributes: new { id = "loginLink" })
+                    </li>*@
+
+                </p>
+            }
+
+        </div><!-- div class="container-fluid" -->
+
+</div><!-- div id="page-wrapper" -->
+<!-- ============================================================== -->
+<!-- End Page Content -->
+<!-- ============================================================== -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+      $(function() {
+        var moveLeft = 20;
+        var moveDown = 10;
+
+        $('a#trigger').hover(function(e) {
+          $('div#pop-up').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveLeft)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function() { $('div#pop-up').hide(); }, 5000);
+        });
+
+      });
+</script>

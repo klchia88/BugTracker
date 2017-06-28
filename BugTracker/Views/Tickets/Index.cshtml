@@ -1,0 +1,489 @@
+﻿@model BugTracker.Models.UserPreferencesViewModel
+@*@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>*@
+@*@model IEnumerable<BugTracker.Models.UserPreferencesViewModel>*@
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <a href="#" class="triggerp" id="dashboardtrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    System Status
+                </a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="dashboardpop1">
+            <h3>Dashboard Functionality</h3>
+            <br />
+            The Dashboard is the main place where you work on the Tickets.<br />
+            Here you will find a System Status Summary and a Tickets Summary.<br />
+            The numbers in the System Status will line up with whether you choose All Tickets in the system or Only Tickets pertinent to you.<br />
+            <br />
+            The Tickets Summary comes in 2 flavors depending on the Ticket Filter you choose:<br />
+            1.	All Tickets in the system (default)<br />
+            2.	Only Tickets pertinent to you<br />
+            <br />
+            @*You can further filter either list by the Statuses of the Tickets, whether:<br />
+            1.	All (default)<br />
+            2.	Open<br />
+            3.	Closed<br />
+            4.	Archived.<br />
+            <br /><br />*@
+            Tip: Wherever you see the "Bug" icon, <i class="fa fa-bug fa-fw"></i> if you mouse-over it, useful information will pop-up.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Dashboard Dials New -->
+        <!-- ============================================================== -->
+
+        <div class="row">
+
+            <div class="col-lg-3 col-lg-3 col-sm-6 col-xs-12">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading orange">
+                            <i class="fa fa-globe fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content orange">
+                        <div class="circle-tile-description text-faded">
+                            All Unarchived Tickets
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            @ViewBag.AllUnarchived
+                        </div>
+                        <a href="#" class="circle-tile-footer triggersm" id="inpagetrig1"><i class="fa fa-bug fa-fw"></i>More Info</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-lg-3 col-sm-6 col-xs-12">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading red">
+                            <i class="fa fa-fire fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content red">
+                        <div class="circle-tile-description text-faded">
+                            Open Tickets
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            @ViewBag.AllOpen
+                            <span id="sparklineC"></span>
+                        </div>
+                        <a href="#" class="circle-tile-footer triggersm" id="inpagetrig2"><i class="fa fa-bug fa-fw"></i>More Info</a>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-lg-3 col-sm-6 col-xs-12">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading blue">
+                            <i class="fa fa-fire-extinguisher fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content blue">
+                        <div class="circle-tile-description text-faded">
+                            Closed Tickets
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            @ViewBag.AllClosed
+                            <span id="sparklineB"></span>
+                        </div>
+                        <a href="#" class="circle-tile-footer triggersm" id="inpagetrig3"><i class="fa fa-bug fa-fw"></i>More Info</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-lg-3 col-sm-6 col-xs-12">
+                <div class="circle-tile">
+                    <a href="#">
+                        <div class="circle-tile-heading purple">
+                            <i class="fa fa-bank fa-3x"></i>
+                        </div>
+                    </a>
+                    <div class="circle-tile-content purple">
+                        <div class="circle-tile-description text-faded">
+                            Archived Tickets
+                        </div>
+                        <div class="circle-tile-number text-faded">
+                            @ViewBag.AllArchived
+                            <span id="sparklineD"></span>
+                        </div>
+                        <a href="#" class="circle-tile-footer triggersm" id="inpagetrig4"><i class="fa fa-bug fa-fw "></i>More Info</a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!--/div class="row" -->
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="inpagepop1">
+            <h3>All Unarchived Tickets</h3>
+            <br />
+            Count of All Unarchived Tickets (OPEN + CLOSED).<br />
+            <br />
+            This Count reflects which Ticket Filter you choose:<br />
+            1.	All Tickets in the system (default)<br />
+            2.	Only Tickets pertinent to you<br />
+            <br />
+        </div>
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="inpagepop2">
+            <h3>All OPEN Tickets</h3>
+            <br />
+            Count of All OPEN Tickets.<br />
+            <br />
+            This Count reflects which Ticket Filter you choose:<br />
+            1.	All Tickets in the system (default)<br />
+            2.	Only Tickets pertinent to you<br />
+            <br />
+        </div>
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="inpagepop3">
+            <h3>All CLOSED Tickets</h3>
+            <br />
+            Count of All CLOSED Tickets.<br />
+            <br />
+            This Count reflects which Ticket Filter you choose:<br />
+            1.	All Tickets in the system (default)<br />
+            2.	Only Tickets pertinent to you<br />
+            <br />
+        </div>
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="inpagepop4">
+            <h3>All Archived Tickets</h3>
+            <br />
+            Count of All Archived Tickets.<br />
+            <br />
+            This Count reflects which Ticket Filter you choose:<br />
+            1.	All Tickets in the system (default)<br />
+            2.	Only Tickets pertinent to you<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Select Filter for Tickets -->
+        <!-- ============================================================== -->
+
+        <div class="row">
+            <div class="col-md-12">
+                @using (Html.BeginForm("Index", "Tickets", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="form-horizontal">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            @if (ViewBag.FilterByTickets == "MINE")
+                            {
+                                <div class="col-md-6">
+                                    <div class="form-group" align="left">
+                                        &nbsp; &nbsp;
+                                        @Html.LabelFor(model => model.FilterByTickets, "Filter By Tickets:", htmlAttributes: new { @class = "control-label" })
+                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <input id="FilterByTickets" name="FilterByTickets" type="radio" value="ALL"  />
+                                        <label for="ALL">ALL Unarchived Tickets</label> &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <input id="FilterByTickets" name="FilterByTickets" type="radio" value="MINE" checked />
+                                        <label for="ALL">MINE Only</label>
+
+                                        @Html.ValidationMessageFor(model => model.FilterByTickets, "", new { @class = "text-danger" })
+
+                                    </div><!-- div class="form-group" align="left" -->
+                                </div><!-- div class="col-md-5" -->
+                                <div class="col-md-4">
+                                    <input type="submit" value="Select Filtered Tickets" class="btn btn-primary" style="color:darkred" />
+                                </div><!-- div class="col-md-4" -->
+                            } else { 
+
+                                <div class="col-md-6">
+                                    <div class="form-group" align="left">
+                                        &nbsp; &nbsp;
+                                        @Html.LabelFor(model => model.FilterByTickets, "Filter By Tickets:", htmlAttributes: new { @class = "control-label" })
+                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <input id="FilterByTickets" name="FilterByTickets" type="radio" value="ALL" checked />
+                                        <label for="ALL">ALL Unarchived Tickets</label> &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <input id="FilterByTickets" name="FilterByTickets" type="radio" value="MINE" />
+                                        <label for="ALL">MINE Only</label>
+
+                                        @Html.ValidationMessageFor(model => model.FilterByTickets, "", new { @class = "text-danger" })
+
+                                    </div><!-- div class="form-group" align="left" -->
+                                </div><!-- div class="col-md-5" -->
+                                <div class="col-md-4">
+                                    <input type="submit" value="Select Filtered Tickets" class="btn btn-primary" style="color:darkred" />
+                                </div><!-- div class="col-md-4" -->
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Tickets Summary List -->
+        <!-- ============================================================== -->
+
+        <br />
+        <div class="row">
+            @if (User.IsInRole("Submitter"))
+            {
+                <div class="col-md-5">
+                    <a href="#" class="triggerp" id="dashboardtrig2">
+                        <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                        Tickets Summary
+                    </a>
+                </div>
+                <div class="col-md-4 btn btn-default">
+                    @Html.ActionLink("Create New Ticket", "Create")
+                </div>
+            }
+            else
+            {
+                <div class="col-md-5">
+                    <a href="#" class="triggerp" id="dashboardtrig2">
+                        <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                        Tickets Summary
+                    </a>
+                </div>
+                <div class="col-md-3 btn btn-info disabled" style="font-style:italic">
+                    Create New Ticket
+                </div>
+            }
+        </div>
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="dashboardpop2">
+            <h3>Tickets Functionality by Roles</h3>
+            <br />
+            Any Authenticated User can View a summary list of all tickets.<br />
+            Any Authenticated User can also View all Ticket Details, but not change them.<br />
+            <br />
+            Admin Role can View and Edit all tickets.
+            The Admin Role pretty much has all authority to do anything in the system.<br />
+            <br />
+            Project Manager Role can only Edit these kinds of tickets:<br />
+            -	Tickets associated with Projects they are in charge of as Project Manager<br />
+            -	Tickets Assigned to them as Developer Role on Projects<br />
+            -	Tickets they own as Submitter<br />
+            -	Only distinct tickets will be displayed, no duplicate tickets will be shown even if tickets are pulled more than once by the different queries.<br />
+            <br />
+            Developer Role can only Edit these kinds of tickets:<br />
+            -	Tickets Assigned to them as Developers on one or more Projects<br />
+            -	Tickets they own as Submitter<br />
+            <br />
+            Submitter Role can only Edit tickets they own as Submitter.<br />
+            Only Submitter Role can Create Tickets; no other Roles can do that.
+            However, all new Users added to the system are automatically assigned the Submitter Role.<br />
+            <br />
+        </div>
+
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Owner
+                    </th>
+                    <th>
+                        AssignedTo
+                    </th>
+                    <th>
+                        Project
+                    </th>
+                    <th>
+                        Priority
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Created
+                    </th>
+                    <th>
+                        Updated
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Tickets)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="dot-ellipsis dot-height-100">
+                            @Html.Raw(item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Updated)
+                        </td>
+                        <td>
+                            @if ((ViewBag.FilterByTickets == "MINE") || User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                            }
+                            else
+                            {
+                                @Html.ActionLink("View", "Details", new { id = item.Id }) <br />
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+
+</div><!-- div id="page-wrapper" -->
+
+@section scripts{
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+        $('a#dashboardtrig1').hover(function(e) {
+          $('div#dashboardpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#dashboardpop1').hide(); }, 200);
+        });
+      });
+      //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#dashboardtrig2').hover(function (e) {
+              $('div#dashboardpop2').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#dashboardpop2').hide(); }, 200);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig1').hover(function (e) {
+              $('div#inpagepop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop1').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig2').hover(function (e) {
+              $('div#inpagepop2').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop2').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig3').hover(function (e) {
+              $('div#inpagepop3').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop3').hide(); }, 50);
+          });
+      });
+
+      $(function () {
+          var moveRight = 20;
+          var moveDown = 1;
+          $('a#inpagetrig4').hover(function (e) {
+              $('div#inpagepop4').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+          }, function () {
+              setTimeout(function () { $('div#inpagepop4').hide(); }, 50);
+          });
+      });
+
+    </script>
+}

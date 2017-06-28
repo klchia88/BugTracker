@@ -1,0 +1,399 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@model BugTracker.Models.CodeFirst.Ticket
+
+@{
+    ViewBag.Title = "Ticket Details";
+}
+
+<!-- ============================================================== -->
+<!-- Page Title -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <h2>@ViewBag.Title</h2>
+        <p>
+            Any Authenticated User can view Ticket Details.
+        </p>
+        <hr /><br />
+        <p>
+            @ViewBag.StatusMessage
+        </p>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        @*<p>
+            </p>*@
+
+        <!-- ============================================================== -->
+        <!-- Main Ticket Info -->
+        <!-- ============================================================== -->
+        <div><!-- Section start -->
+            <h3>Main Section</h3>
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    Owner
+                    @*@Html.DisplayNameFor(model => model.OwnerUser.DisplayName)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.OwnerUser.FirstName)
+                    @Html.DisplayFor(model => model.OwnerUser.LastName)
+                    (
+                    @Html.DisplayFor(model => model.OwnerUser.Email)
+                    )
+                </dd>
+
+                <dt>
+                    AssignedTo
+                    @*@Html.DisplayNameFor(model => model.AssignedToUser.DisplayName)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+                    @Html.DisplayFor(model => model.AssignedToUser.LastName)
+                    (
+                    @Html.DisplayFor(model => model.AssignedToUser.Email)
+                    )
+                </dd>
+
+                <dt>
+                    Project
+                    @*@Html.DisplayNameFor(model => model.Project.Name)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Project.Name)
+                </dd>
+
+                <dt>
+                    Priority
+                    @*@Html.DisplayNameFor(model => model.TicketPriority.Name)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketPriority.Name)
+                </dd>
+
+                <dt>
+                    Status
+                    @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketStatus.Name)
+                </dd>
+
+                <dt>
+                    Type
+                    @*@Html.DisplayNameFor(model => model.TicketType.Name)*@
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketType.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Created)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Created)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Updated)
+                </dd>
+
+            </dl>
+            <p>
+                @if ((ViewBag.MyIndex == "MyIndex") || User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="btn btn-default">
+                                @Html.ActionLink("Back to List", "MyIndex")
+                            </div>
+                            <div class="btn btn-primary">
+                                @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </p>
+            @*<p>
+                @Html.ActionLink("Back to List", "Index")
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+                }
+            </p>*@
+        </div><!-- Section end -->
+        <br /><br />
+
+        <!-- ============================================================== -->
+        <!-- Ticket Comments -->
+        <!-- ============================================================== -->
+        <div><!-- Section start -->
+            <h3>Comments Section</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Created
+                            @*@Html.DisplayNameFor(model => model.TicketComments.Created)*@
+                        </th>
+                        <th>
+                            User
+                            @*@Html.DisplayNameFor(model => model.TicketComments.UserId)*@
+                        </th>
+                        <th>
+                            Comment
+                            @*@Html.DisplayNameFor(model => model.TicketComments.Comment)*@
+                        </th>
+                     
+                        @*<th>
+                            Action
+                        </th>*@
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.TicketComments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @*@item.UserId.FirstName*@
+                                @*@Html.DisplayFor(modelItem => item.UserId.DisplayName)*@
+                                @*@Html.DisplayFor(modelItem => item.UserId)*@
+                                @Html.DisplayFor(modelItem => item.User.DisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Comment)
+                            </td>
+                           
+                            @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br/>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <p>
+                @if ((ViewBag.MyIndex == "MyIndex") || User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="btn btn-default">
+                                @Html.ActionLink("Back to List", "MyIndex")
+                            </div>
+                            <div class="btn btn-primary">
+                                @Html.ActionLink("Create New Comment", "CreateComment", new { id = Model.Id })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </p>
+            @*<p>
+                @Html.ActionLink("Back to List", "Index") |
+                @Html.ActionLink("Create New Comment", "CreateComment", new { id = Model.Id })
+            </p>*@
+        </div><!-- Section end -->
+        <br /><br />
+
+        <!-- ============================================================== -->
+        <!-- Ticket Attachments -->
+        <!-- ============================================================== -->
+        <div><!-- Section start -->
+            <h3>Attachments Section</h3>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Created
+                            @*@Html.DisplayNameFor(model => model.TicketAttachments.Created)*@
+                        </th>
+                        <th>
+                            User
+                            @*@Html.DisplayNameFor(model => model.TicketAttachments.UserId)*@
+                        </th>
+                        <th>
+                            Attachment
+                            @*@Html.DisplayNameFor(model => model.TicketAttachments.Comment)*@
+                        </th>
+                        <th>
+                            Description
+                            @*@Html.DisplayNameFor(model => model.TicketAttachments.Comment)*@
+                        </th>
+                      
+                        @*<th>
+                            Action
+                        </th>*@
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.TicketAttachments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @*@item.UserId.FirstName*@
+                                @*@Html.DisplayFor(modelItem => item.UserId.DisplayName)*@
+                                @*@Html.DisplayFor(modelItem => item.UserId)*@
+                                @Html.DisplayFor(modelItem => item.User.DisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FileUrl)
+                                <div style="height:100px;width:100px">
+                                    <img src="@Url.Content("~/upload/" + item.FileUrl)" class="img-responsive" />
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                          
+                            @*<td>
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br/>
+                                @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                            </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <p>
+                @if ((ViewBag.MyIndex == "MyIndex") || User.IsInRole("Admin"))
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="btn btn-default">
+                                @Html.ActionLink("Back to List", "MyIndex")
+                            </div>
+                            <div class="btn btn-primary">
+                                @Html.ActionLink("Create New Attachment", "UploadAttachment", new { id = Model.Id })
+                            </div>
+                        </div>
+                    </div>
+                }
+            </p>
+
+            @*<p>
+                @Html.ActionLink("Back to List", "Index") |
+                @Html.ActionLink("Create New Attachment", "UploadAttachment", new { id = Model.Id })
+            </p>*@
+        </div><!-- Section end -->
+        <br /><br />
+
+        <!-- ============================================================== -->
+        <!-- Ticket Notifications -->
+        <!-- ============================================================== -->
+        <div><!-- Section start -->
+            <h3>Notifications Section</h3>
+        </div><!-- Section end -->
+        <br /><br />
+        <!-- ============================================================== -->
+        <!-- Ticket Histories -->
+        <!-- ============================================================== -->
+        <div><!-- Section start -->
+            <h3>History Section</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Changed
+                            @*@Html.DisplayNameFor(model => model.TicketHistories.Changed)*@
+                        </th>
+                        <th>
+                            User
+                            @*@Html.DisplayNameFor(model => model.TicketHistories.UserId)*@
+                        </th>
+                        <th>
+                            Property
+                            @*@Html.DisplayNameFor(model => model.TicketHistories.Property)*@
+                        </th>
+                        <th>OldValue
+                            @*@Html.DisplayNameFor(model => model.TicketHistories.OldValue)*@
+                        </th>
+                        <th>NewValue
+                            @*@Html.DisplayNameFor(model => model.TicketHistories.NewValue)*@
+                        </th>
+                        @*<th>
+                            Action
+                        </th>*@
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.TicketHistories)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Changed)
+                            </td>
+                            <td>
+                                @*@item.UserId.FirstName*@
+                                @*@Html.DisplayFor(modelItem => item.UserId.DisplayName)*@
+                                @*@Html.DisplayFor(modelItem => item.UserId)*@
+                                @Html.DisplayFor(modelItem => item.User.DisplayName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Property)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.OldValue)
+                            </td> 
+                            <td>
+                                @Html.DisplayFor(modelItem => item.NewValue)
+                            </td>
+                            @*<td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br/>
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                        </td>*@
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @*<p>
+                @Html.ActionLink("Back to List", "Index") |
+                @Html.ActionLink("Create New Comment", "CreateComment", new { id = Model.Id })
+            </p>*@
+
+        </div><!-- Section end -->
+        <br /><br />
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+
+<br /><br />
+

@@ -1,0 +1,194 @@
+﻿@model IEnumerable<BugTracker.Models.CodeFirst.Ticket>
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+<!-- ============================================================== -->
+<!-- Page Title -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <h2>@ViewBag.Title</h2> <!-- MyIndex different from plain Index below -->
+        <p>
+            Here is the List of Tickets pertinent to You.
+        </p><p>
+            Only Submitter Role can Create Tickets.
+        </p>
+        @if (User.IsInRole("Admin"))
+        {
+            <p>
+                Admin Role can see and edit All Tickets.
+            </p>
+        }
+
+        @if (User.IsInRole("ProjectManager"))
+        {
+            <p>
+                ProjectManager Role can see all tickets but can only edit tickets in the projects they are in charge of.
+            </p>
+        }
+
+        @if (User.IsInRole("Developer"))
+        {
+            <p>
+                Developer Role can see all tickets in their projects but can only edit tickets they are assigned to.
+            </p>
+        }
+
+        @if (User.IsInRole("Submitter"))
+        {
+            <p>
+                Submitter Role can see and edit all tickets they own.
+            </p>
+        }
+
+        <hr /><br />
+        <p>
+            @ViewBag.StatusMessage
+        </p>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+        <!-- MyIndex different from plain Index below -->
+        @if (User.IsInRole("ProjectManager") || User.IsInRole("Developer") || User.IsInRole("Submitter"))
+        {
+            <div class="form-group">
+                <div class="btn btn-default ">
+                    @Html.ActionLink("All Tickets", "Index", "Tickets")
+                </div>
+                <div class="btn btn-default active">
+                    @*@Html.ActionLink("My Tickets", "MyIndex", "Tickets", new { myUser = ViewBag.myUser })*@
+                    @Html.ActionLink("My Tickets", "MyIndex", "Tickets")
+                </div>
+            </div>
+        }
+
+        @if (User.IsInRole("Submitter"))
+        {
+            <div class="form-group">
+                <div class="btn btn-default">
+                    @Html.ActionLink("Create New Ticket", "Create")
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="grayed-out">
+                <div class="btn btn-info disabled">
+                    Create New Ticket
+                </div>
+            </div>
+        }
+
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        Owner
+                        @*@Html.DisplayNameFor(model => model.OwnerUser.FirstName)*@
+                    </th>
+                    <th>
+                        AssignedTo
+                        @*@Html.DisplayNameFor(model => model.AssignedToUser.FirstName)*@
+                    </th>
+                    <th>
+                        Project
+                        @*@Html.DisplayNameFor(model => model.Project.Name)*@
+                    </th>
+                    <th>
+                        Priority
+                        @*@Html.DisplayNameFor(model => model.TicketPriority.Name)*@
+                    </th>
+                    <th>
+                        Status
+                        @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                    </th>
+                    <th>
+                        Type
+                        @*@Html.DisplayNameFor(model => model.TicketStatus.Name)*@
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Created)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Updated)
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OwnerUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssignedToUser.DisplayName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Project.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketPriority.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketStatus.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketType.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Updated)
+                        </td><!-- MyIndex different from plain Index below -->
+                        <td>
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("Developer"))
+                            {
+                                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) <br />
+                            }
+
+                            @Html.ActionLink("Details", "Details", new { id = item.Id }) <br />
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id }) <br />
+                            }
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+
+        </table>
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+
+</div><!-- div id="page-wrapper" -->
+<br /><br />

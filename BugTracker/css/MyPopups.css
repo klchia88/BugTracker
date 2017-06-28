@@ -1,0 +1,90 @@
+﻿
+h1, h3 {
+margin: 0;
+padding: 0;
+font-weight: normal;
+}
+      
+a {
+color: #EB067B;         /*darkish red, but not as dark as "darkred"*/
+}
+
+/* SHARED HOVER STYLES */
+
+.triggerp {
+font-weight: normal;
+font-size: 1.5em;
+}
+
+.triggersm {
+font-weight: normal;
+font-size: 1.0em;
+}
+         
+.poptrig {
+display: none;
+position: absolute;
+padding: 10px;
+background: #eeeeee;
+color: #000000;
+border: 1px solid #1a1a1a;
+font-size: 90%;
+}
+
+/* GENERIC HOVER POP STYLES */
+
+div#xsmallpop1 {
+width: 250px;
+}
+
+div#smallpop1 {
+width: 350px;
+}
+
+div#mediumpop1 {
+width: 600px;
+}
+
+div#largepop1 {
+width: 800px;
+}
+
+div#xlargepop1 {
+width: 900px;
+}
+
+/* MULTIPLE IN-PAGE POP STYLES */
+
+div#inpagepop1 {
+width: 300px;
+}
+
+div#inpagepop2 {
+width: 300px;
+}
+
+div#inpagepop3 {
+width: 250px;
+}
+
+div#inpagepop4 {
+width: 200px;
+}
+
+div#inpagepop5 {
+width: 350px;
+}
+
+div#inpagepop6 {
+width: 350px;
+}
+
+/* INDIVIDUAL HOVER POP STYLES */
+
+div#dashboardpop1 {
+width: 500px;
+}
+
+div#dashboardpop2 {
+width: 850px;
+}

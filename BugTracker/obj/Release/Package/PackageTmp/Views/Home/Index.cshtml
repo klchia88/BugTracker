@@ -1,0 +1,89 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Original Home";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="smalltrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="smallpop1">
+            <h3>@ViewBag.Title</h3>
+            <br />
+            This is the Original Home Page.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        @if (User.Identity.IsAuthenticated)
+        {
+            <p>
+                You are already logged in ...<br />
+                Click to Proceed to Dashboard ...<br />
+            </p>
+            <p>
+                @Html.ActionLink("Dashboard", "Index", "Tickets")
+            </p>
+
+        }
+        else
+        {
+            <p class="blog-comments-login">
+                You are not logged in ...<br />
+                Please Login or Register to Continue ...<br />
+            </p><p>
+                @Html.ActionLink("Login", "Login", "Account") |
+                @Html.ActionLink("Register", "Register", "Account")
+
+            </p>
+        }
+
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#smalltrig1').hover(function(e) {
+            $('div#smallpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#smallpop1').hide(); }, 500);
+        });
+
+      });
+      //setTimeout(function () { $('div#smallpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}

@@ -1,0 +1,141 @@
+﻿
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Quick Start Manual";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="smalltrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="smallpop1">
+            <h3>@ViewBag.Title</h3>
+            <br />
+            This is the Quick Start Manual.<br />
+            <br />
+            It contains helpful information to give you a Quick Start on getting productive with the BugTracker.Pro Problem Tickets Management and Tracking System.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <div class="qsection-hdr">
+            Quick Start Manual
+        </div><br />
+        <div class="qsummary">
+            Tip: Wherever you see the "Bug" icon, <i class="fa fa-bug fa-fw"></i> if you mouse-over it, useful information will pop-up.<br />
+        (Try it now and mouse-over the bug above "QUICK" on the top left.)
+        </div><br />
+        <div class="qspara-hdr">
+            Empower Problem Solvers
+        </div>
+            <div class="qspara-body">
+                With the Professional BugTracker in mind, BugTracker.Pro is designed for functionality and ease of use to empower problem solvers --
+                no fluff, no unnecessary texts to wade through, just direct action.<br /><br />
+                With the Novice BugTracker in mind, BugTracker.Pro is designed for intuitive action. <br /><br />
+                With this Quick Start Manual and ample pop-up information screens at every view, Novice BugTrackers will be up and running in no time.<br /><br />
+                Even Professional BugTrackers could use a brush-up with this Quick Start Manual and the pop-up information screens from time to time.<br /><br />
+                The pop-up screens need only be activated when you need them, you can just ignore these useful bugs when you are focused on crushing the other menacing bugs.
+            </div><br />
+        <div class="qspara-hdr">
+            Dashboard
+        </div>
+            <div class="qspara-body">
+                The Dashboard is the main place where you work on the Tickets.<br /><br />
+                Here you will find:
+                <ul>
+                    <li>
+                        a <strong>System Status Summary</strong> showing the current systems standings at a glance.
+                        The numbers in the System Status will line up with whether you choose All Tickets in the system or Only Tickets pertinent to you.
+                    </li>
+                    
+                    <li>
+                        a <strong>Tickets Summary</strong> of all the Unarchived Tickets
+                    </li>
+                </ul>
+            </div><br />
+        <div class="qspara-hdr">
+            Tickets Summary
+        </div>
+        <div class="qspara-body">
+            The Tickets Summary comes in 2 flavors depending on the Ticket Filter you choose:<br />
+            <ol>
+                <li>
+                    All Tickets in the system (default)
+                </li>
+
+                <li>
+                    Only Tickets pertinent to you
+                </li>
+            </ol>
+        </div><br />
+        <div class="qspara-hdr">
+            Users, Roles, and Projects
+        </div>
+            <div class="qspara-body">
+                There are 3 main relationships that govern our BugTracker Tickets management system:<br />
+                Users, Roles, and Projects.<br />
+                <br />
+                There are 3 separate Views focused on each of these relationships, named the same.<br />
+                <br />
+                You can sort these lists by any column by clicking on the "up" or "down" arrow in the column header.<br /><br />
+                You can search the list for any word or phrase by entering it in the "Search:" box.<br /><br />
+                Clicking "View" or "Details" in the rightmost "Action" column will bring you to a Detailed view of that particular object.<br />
+            </div><br />
+        <div class="qspara-hdr">
+            freer access means quicker resolutions
+        </div>
+            <div class="qspara-body">
+                Any Authenticated User can View all Ticket Details and Assignments, but not change them.<br /><br />
+                This is in keeping with the mission of not hampering problem solvers in their work -- freer access means quicker access to find solutions.<br /><br />
+                Freer access for Authenticated Users also means they can find solutions themselves instead of relying solely on Customer Service Reps.<br />
+            </div><br /><br />
+            <!-- ============================================================== -->
+            <!-- End Page Content -->
+            <!-- ============================================================== -->
+        </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            var moveRight = 20;
+            var moveDown = 1;
+
+            $('a#smalltrig1').hover(function (e) {
+                $('div#smallpop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+            }, function () {
+                setTimeout(function () { $('div#smallpop1').hide(); }, 50);
+            });
+
+        });
+        //setTimeout(function () { $('div#smallpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}
+

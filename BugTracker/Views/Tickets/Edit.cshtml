@@ -1,0 +1,223 @@
+﻿@model BugTracker.Models.CodeFirst.Ticket
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "Edit Ticket";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 ">
+                <a href="#" class="triggerp" id="mediumtrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="mediumpop1">
+            <h3>@ViewBag.Title</h3>
+            <br />
+            Admin Role can edit All Tickets.<br />
+            ProjectManager Role can only edit tickets in the projects they are in charge of.<br />
+            Developer Role can only edit tickets they are assigned to.<br />
+            Submitter Role can edit all tickets they own.<br />
+            <br />
+            Only Admin and ProjectManager Roles can change the AssignedTo UserId, Developer and Submitter Roles cannot do so.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <dl class="dl-horizontal">
+                    <dt>
+                        Project
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.Project.Name)
+                    </dd>
+                    <dt>
+                        Ticket Owner
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.OwnerUser.DisplayName)
+                    </dd>
+                </dl>
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.Created)
+                @Html.HiddenFor(model => model.ProjectId)
+                @Html.HiddenFor(model => model.OwnerUserId)
+
+                @if (!User.IsInRole("Admin") && !User.IsInRole("ProjectManager"))
+                {
+                    @Html.HiddenFor(model => model.AssignedToUserId)
+                }
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = "5", id = "txteditor" } })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Created, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Created, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Created, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.Updated, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Updated, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Updated, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.ProjectId, "ProjectId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("ProjectId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ProjectId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TicketTypeId, "Ticket Type", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("TicketTypeId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TicketTypeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TicketPriorityId, "Ticket Priority", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("TicketPriorityId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TicketPriorityId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TicketStatusId, "Ticket Status", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("TicketStatusId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TicketStatusId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(model => model.OwnerUserId, "OwnerUserId", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("OwnerUserId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.OwnerUserId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>*@
+
+                @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AssignedToUserId, "Assigned-To User", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("AssignedToUserId", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.AssignedToUserId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+
+                @if ((ViewBag.FilterByTickets == "MINE") || (ViewBag.MyEditTicket = true))
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="btn btn-default"><i class="fa fa-reply" aria-hidden="true"></i>
+                            @Html.ActionLink("Back to List", "Index")
+                        </div>
+                        <input type="submit" value="Update Ticket" class="btn btn-primary" style="color:darkred" />
+                    </div>
+                </div>
+                }
+                else
+                {
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <div class="btn btn-default">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                    @Html.ActionLink("Back to List", "Index")
+                                </div>
+                                <div class="btn btn-info disabled" style="font-style:italic">
+                                    Update Ticket
+                                </div>
+                            </div>
+                        </div>
+                }
+
+            </div>
+        }
+        <br />
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+
+</div><!-- div id="page-wrapper" -->
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/tinymce/tinymce.min.js"></script>
+    <script src="~/Scripts/tinymce/jquery.tinymce.min.js"></script>
+    <script>
+        $('#txteditor').tinymce({});
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            var moveRight = 20;
+            var moveDown = 1;
+            $('a#mediumtrig1').hover(function (e) {
+                $('div#mediumpop1').show()
+                .css('top', e.pageY + moveDown)
+                .css('left', e.pageX + moveRight)
+                .appendTo('body');
+            }, function () {
+                setTimeout(function () { $('div#mediumpop1').hide(); }, 50);
+            });
+        });
+        //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+
+    </script>
+}

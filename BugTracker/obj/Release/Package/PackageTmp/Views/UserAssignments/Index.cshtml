@@ -1,0 +1,150 @@
+﻿@model IEnumerable<BugTracker.Models.UserAssignmentsViewModel>
+
+@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@{
+    ViewBag.Title = "User Assignments List";
+}
+
+<!-- ============================================================== -->
+<!-- Page Header -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+        <br />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <a href="#" class="triggerp" id="mediumtrig1">
+                    <i class="fa fa-bug fa-fw" aria-hidden="true"></i>
+                    List of Users and their Project and Role Assignments
+                </a>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                <p class="text-success">@ViewBag.StatusMessage</p>
+            </div>
+        </div><!-- div class="row" -->
+        <br />
+
+        <!-- <a href="#" class="triggerp" id="userlisttrig1"> -->
+        <!-- <div class="poptrig" id="userlistpop1"> -->
+        <!-- <div class="poptrig" id="mediumpop1"> -->
+
+        <!-- HIDDEN / POP-UP DIV -->
+        <div class="poptrig" id="mediumpop1">
+            <h3>@ViewBag.Title ><br />
+                List of Users and their Project and Role Assignments<br /></h3>
+            <br />
+            There are 3 main relationships that govern our BugTracker Tickets management system:<br />
+            Users, Roles, and Projects.<br />
+            <br />
+            This View focuses on the User relationship to the other two.<br />
+            <br />
+            You can sort the list by any column by clicking on the "up" or "down" arrow in the column header.<br />
+            You can search the list for any word or phrase by entering it in the "Search:" box.<br />
+            Clicking "Details" in the rightmost "Action" column will bring you to a Detailed view of that particular User.<br />
+            <br />
+            Any Authenticated User can View all User Assignments, but not change them.<br />
+            Only Admin Role can Assign Roles to Users.<br />
+            Only Admin or Project Manager Roles can Assign Projects to Users.<br />
+            <br />
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- Page Content -->
+        <!-- ============================================================== -->
+
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>
+                        Display Name
+                    </th>
+                    <th>
+                        First Name
+                    </th>
+                    <th>
+                        Last Name
+                    </th>
+                    <th>
+                        Projects
+                    </th>
+                    <th>
+                        Roles
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.DisplayName)
+                            @*@item.User.DisplayName*@
+                        </td>
+                        <td>
+                            @item.User.FirstName
+                        </td>
+                        <td>
+                            @item.User.LastName
+                        </td>
+                        <td>
+                            @foreach (var project in item.Projects)
+                            {
+                                <p>@project.Name</p><br />
+                            }
+
+                        </td>
+                        <td>
+                            @foreach (var role in item.SelectedRoles)
+                            {
+                                <p>@role</p><br />
+                            }
+
+                        </td>
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", new { id = item.User.Id }) |*@
+                            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                            {
+                                @Html.ActionLink("Details", "Details", new { id = item.User.Id })
+                            }
+                            @*@Html.ActionLink("Delete", "Delete", new { id = item.User.Id })*@
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- ============================================================== -->
+        <!-- End Page Content -->
+        <!-- ============================================================== -->
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
+<br /><br />
+
+@section scripts{
+    <script type="text/javascript">
+      $(function() {
+        var moveRight = 20;
+        var moveDown = 1;
+
+        $('a#mediumtrig1').hover(function(e) {
+            $('div#mediumpop1').show()
+            .css('top', e.pageY + moveDown)
+            .css('left', e.pageX + moveRight)
+            .appendTo('body');
+        }, function() {
+            setTimeout(function () { $('div#mediumpop1').hide(); }, 500);
+        });
+
+      });
+      //setTimeout(function () { $('div#dashboardpop1').hide(); }, 5000); <== Sets how fast the pop-up disappears after mouse leaving.
+    </script>
+}
+

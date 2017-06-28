@@ -1,0 +1,111 @@
+﻿@{
+    //Layout = "~/Views/Shared/_LayoutTopBar.cshtml";
+    Layout = "~/Views/Shared/_LayoutMenu.cshtml";
+}
+
+@using BugTracker.Models
+    @model UserRolesViewModel
+
+@{
+    ViewBag.Title = "AssignRoles";
+}
+
+<!-- ============================================================== -->
+<!-- Page Title -->
+<!-- ============================================================== -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+
+    <br />
+    <h2>User Roles Assignment</h2>
+    <hr /><br />
+
+    <!-- ============================================================== -->
+    <!-- Page Content -->
+    <!-- ============================================================== -->
+    @*<p>
+            @Html.ActionLink("Create New", "Create")
+        </p>*@
+    <table class="table">
+        <tr>
+            <th>
+                Display Name
+            </th>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            @*<th>
+                    Roles
+                </th>
+                <th>
+                    Action
+                </th>
+                <th></th>*@
+        </tr>
+
+        <tr>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.User.DisplayName)*@
+                @Model.User.DisplayName
+            </td>
+            <td>
+                @Model.User.FirstName
+            </td>
+            <td>
+                @Model.User.LastName
+            </td>
+        </tr>
+    </table>
+
+    @*<p>Current Roles</p>*@
+    @*@foreach (var role in Model.Roles)
+            {
+        <p>@role</p><br />
+    }*@
+
+    @using (Html.BeginForm("Details", "UserRoles", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div><!-- div class="form-horizontal" -->
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @*@Html.HiddenFor(model => model.Post.Published)*@
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    ASSIGNED Roles
+                </div>
+                @*@Html.LabelFor(model => model.Roles, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                <div class="col-md-10">
+                    @Html.ListBox("SelectedRoles", Model.RolesList)
+                    @Html.ValidationMessageFor(model => model.RolesList, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            @*<div class="form-group">
+                <div class="col-md-10">
+                    UNASSIGNED Roles
+                </div>
+                @Html.LabelFor(model => model.Roles, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.ListBox("RolesU", null, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Roles, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Back to List", "Index", "UserRoles")
+
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div><!-- div class="form-horizontal" -->
+    }
+    </div><!-- div class="container-fluid" -->
+</div><!-- div id="page-wrapper" -->
